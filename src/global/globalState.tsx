@@ -17,6 +17,6 @@ const globalState = createSlice({
   },
 });
 
-export const {} = globalState.actions;
+export const { mainUser, logOut } = globalState.actions;
 
 export default globalState.reducer;

@@ -1,6 +1,10 @@
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { registerApi } from "../../apis/authApi";
+import LoadingScreen from "../../components/private/LoadingScreen";
 
 const RegisterScreen = () => {
   const Schema = yup.object({
@@ -16,14 +20,22 @@ const RegisterScreen = () => {
   } = useForm({
     resolver: yupResolver(Schema),
   });
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState<boolean>(false);
 
-  const onHandleSubmit = handleSubmit(async (res) => {
-    console.log("This is res :", res);
+  const onHandleSubmit = handleSubmit(async (data) => {
+    const { email, userName, password } = data;
+    setLoading(true);
+    registerApi({ email, userName, password }).then(() => {
+      navigate("/auth/signin");
+      setLoading(false);
+    });
   });
   return (
-    <div className="w-full h-screen flex justify-center items-center bg-black">
+    <div className="w-full relative h-screen flex justify-center items-center bg-black">
+      {loading && <LoadingScreen />}
       <form
-        className="w-[30%] h-auto rounded-md flex flex-col items-center bg-white"
+        className=" max-sm:w-[85%] max-md:w-[70%] lg:w-[60%] xl:w-[50%] w-[50%] h-auto rounded-md flex flex-col items-center bg-white"
         onSubmit={onHandleSubmit}
       >
         <div className="font-[Zah] uppercase my-2 text-[20px]">Register</div>
@@ -86,6 +98,12 @@ const RegisterScreen = () => {
               Provide a password
             </div>
           )}
+        </div>
+        <div className="flex text-[13px]">
+          Have an account?{" "}
+          <Link to="/auth/signin">
+            <div className="ml-2 underline text-red-500">Signin</div>
+          </Link>
         </div>
         <div className="my-4">
           <button

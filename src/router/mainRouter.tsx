@@ -6,6 +6,7 @@ import SigninScreen from "../pages/auth/SigninScreen";
 import FirstLayout from "../components/static/FirstLayout";
 import LandingScreen from "../pages/auth/LandingScreen";
 import PrivateRoute from "./PrivateRoute";
+import LoadingScreen from "../components/private/LoadingScreen";
 
 export const mainRouter = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ export const mainRouter = createBrowserRouter([
   {
     path: "/auth/signin",
     element: <SigninScreen />,
+  },
+  {
+    path: "/auth/loading",
+    element: <LoadingScreen />,
   },
   {
     path: "/",
